@@ -8,3 +8,4 @@ pyttsx3==2.90
 bs4
 urllib3==1.26.8
 pyjokes
+datetime
