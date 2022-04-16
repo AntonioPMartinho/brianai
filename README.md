@@ -117,6 +117,7 @@ This are the instructions for the installation of BrianAI on your computer.
 
 The first thing you will need is to have python installed on your machine. https://www.python.org/downloads/ <br>
 Check the current version of python on your machine by using:
+
 * 
   ```sh
   python --version
@@ -135,9 +136,9 @@ _Below is an example of how you can instruct your audience on installing and set
    ```sh
    pip install -r requirements.txt
    ```
-4. Enter your API in `config.js`
+4. Enter your API key
    ```js
-   const API_KEY = 'ENTER YOUR API';
+   Paste the credentials.json and token.json on the root folder.
    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -146,9 +147,24 @@ _Below is an example of how you can instruct your audience on installing and set
 
 <!-- USAGE EXAMPLES -->
 ## Usage
+  ```
+  To activate the assistant just say the words "Hey Brian".
+  ```
+  Some of the available voice commands are:
+  ```
+  Make a note.
+  Check your upcoming events on Google Calendar (Example : What do I have on the 21st, Do I have plans for Thursday.)
+  Telling jokes (Example: Tell me a joke, Brian.)
+  Check the time (Example: Tell me the time.)
+  Searching on Google/Youtube (Example: Search for ruizcosta on youtube.)
+  Check the Weather forecast (Example: How's the weather outside.)
+  Check the price of products (Example: Check the price of a computer.)
+  Play rock paper scissors (Example: Play a game with me.)
+  Do some mathematic operations (Example: How much is 35 plus 55.)
+  Exit the assistant (Example: Take some rest Brian.)
+  Shutdown your computer using the assistant (Example: Please shutdown my computer.)
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
+  ```
 _For more examples, please refer to the [Documentation](https://example.com)_
 
 <p align="right">(<a href="#top">back to top</a>)</p>
