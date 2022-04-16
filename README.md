@@ -115,7 +115,7 @@ This are the instructions for the installation of BrianAI on your computer.
 
 ### Prerequisites
 
-The first thing you will need is to have python installed on your machine. https://www.python.org/downloads/
+The first thing you will need is to have python installed on your machine. https://www.python.org/downloads/ <br>
 Check the current version of python on your machine by using:
 * 
   ```sh
