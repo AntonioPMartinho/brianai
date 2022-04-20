@@ -50,8 +50,6 @@ I started developing this project as my final course presentation, in the hopes 
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-
 * [Python](https://www.python.org/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -61,7 +59,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This are the instructions for the installation of BrianAI on your computer.
+These are the instructions for the installation of BrianAI on your computer.
 
 ### Prerequisites
 
@@ -74,8 +72,6 @@ Check the current version of python on your machine by using:
   ```
 
 ### Installation
-
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
 1. Get a free API Key at by following the steps on the page [https://developers.google.com/calendar/api/quickstart/python](https://developers.google.com/calendar/api/quickstart/python)
 2. Clone the repo
