@@ -3,6 +3,7 @@ import datetime
 import pickle
 import os.path
 
+
 from numpy import who
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -18,12 +19,17 @@ import wikipedia
 import random
 import webbrowser
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
-MONTHS = ["january", "february", "march", "april", "may", "june","july", "august", "september","october","november", "december"]
-DAYS = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+MONTHS = ["january", "february", "march", "april", "may", "june",
+          "july", "august", "september", "october", "november", "december"]
+DAYS = ["monday", "tuesday", "wednesday",
+        "thursday", "friday", "saturday", "sunday"]
 DAY_EXTENTIONS = ["rd", "th", "st", "nd"]
+
 
 def speak(text):
     engine = pyttsx3.init()
+    voices = engine.getProperty('voices')
+    engine.setProperty('voice', voices[1].id)
     engine.say(text)
     engine.runAndWait()
 
@@ -43,9 +49,7 @@ def get_audio():
 
 
 def authenticate_google():
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
+
     creds = None
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
@@ -76,8 +80,8 @@ def get_events(day, service):
     end_date = end_date.astimezone(utc)
 
     events_result = service.events().list(calendarId='primary', timeMin=date.isoformat(), timeMax=end_date.isoformat(),
-                                        singleEvents=True,
-                                        orderBy='startTime').execute()
+                                          singleEvents=True,
+                                          orderBy='startTime').execute()
     events = events_result.get('items', [])
 
     if not events:
@@ -88,14 +92,16 @@ def get_events(day, service):
         for event in events:
             start = event['start'].get('dateTime', event['start'].get('date'))
             print(start, event['summary'])
-            start_time = str(start.split("T")[1].split("-")[0]) 
+            start_time = str(start.split("T")[1].split("-")[0])
             if int(start_time.split(":")[0]) < 12:
                 start_time = start_time + "am"
             else:
-                start_time = str(int(start_time.split(":")[0])-12) + start_time.split(":")[1]
+                start_time = str(int(start_time.split(
+                    ":")[0])-12) + start_time.split(":")[1]
                 start_time = start_time + "pm"
-                
+
             speak(event["summary"] + " at " + start_time)
+
 
 def get_date(text):
     text = text.lower()
@@ -125,11 +131,10 @@ def get_date(text):
                     except:
                         pass
 
-    
-    if month < today.month and month != -1:  
+    if month < today.month and month != -1:
         year = year+1
 
-    if month == -1 and day != -1:  
+    if month == -1 and day != -1:
         if day < today.day:
             month = today.month + 1
         else:
@@ -147,8 +152,9 @@ def get_date(text):
 
         return today + datetime.timedelta(dif)
 
-    if day != -1:  
+    if day != -1:
         return datetime.date(month=month, day=day, year=year)
+
 
 def note(text):
     date = datetime.datetime.now()
@@ -157,12 +163,6 @@ def note(text):
         f.write(text)
 
     subprocess.Popen(["notepad.exe", file_name])
-
-
-
-
-
-
 
 
 WAKE = "hey brian"
@@ -180,7 +180,7 @@ while True:
         CALENDAR_STRS = ["what do i have", "do i have plans", "am i busy"]
         for phrase in CALENDAR_STRS:
             if phrase in text:
-                date = get_date(text) 
+                date = get_date(text)
                 if date:
                     get_events(date, SERVICE)
                 else:
@@ -194,85 +194,72 @@ while True:
                 note(note_text)
                 speak("I've made a note of that.")
 
-
-        WEATHER_STRS = ["weather","temperature","forecast","forecaste"]
+        WEATHER_STRS = ["weather", "temperature", "forecast", "forecaste"]
         for phrase in WEATHER_STRS:
             if phrase in text:
-                api_key="3b5ac6b8b0ae1bcd0c44312981297188"
-                base_url="https://api.openweathermap.org/data/2.5/weather?"
+                api_key = "3b5ac6b8b0ae1bcd0c44312981297188"
+                base_url = "https://api.openweathermap.org/data/2.5/weather?"
                 speak("whats the city name")
-                city_name=get_audio()
-                complete_url=base_url+"appid="+api_key+"&q="+city_name
+                city_name = get_audio()
+                complete_url = base_url+"appid="+api_key+"&q="+city_name
                 response = requests.get(complete_url)
-                x=response.json()
-                if x["cod"]!="404":
-                    y=x["main"]
+                x = response.json()
+                if x["cod"] != "404":
+                    y = x["main"]
                     current_temperature = y["temp"]
                     current_temperature = current_temperature - 273.15
                     current_temperature = "{:.0f}".format(current_temperature)
                     current_humidiy = y["humidity"]
                     z = x["weather"]
                     weather_description = z[0]["description"]
-                    speak(" Temperature in Celsius is " +   
-                        str(current_temperature) + "degrees" +
-                        "\n humidity in percentage is " +
-                        str(current_humidiy) +
-                        "\n description  " +
-                        str(weather_description))
+                    speak(" Temperature in Celsius is " +
+                          str(current_temperature) + "degrees" +
+                          "\n humidity in percentage is " +
+                          str(current_humidiy) +
+                          "\n description  " +
+                          str(weather_description))
                     print(" Temperature in Celsius = " +
-                        str(current_temperature) +
-                        "\n humidity (in percentage) = " +
-                        str(current_humidiy) +
-                        "\n description = " +
-                        str(weather_description))
+                          str(current_temperature) +
+                          "\n humidity (in percentage) = " +
+                          str(current_humidiy) +
+                          "\n description = " +
+                          str(weather_description))
 
                 else:
                     speak(" City Not Found ")
 
-
-        WIKIPEDIA_STRS=["look up"," wikipedia", "definition"," what is"]
+        WIKIPEDIA_STRS = ["look up", " wikipedia", "definition", " what is"]
         for phrase in WIKIPEDIA_STRS:
             if phrase in text:
                 speak("What would you like to search on wikipedia?")
                 search = get_audio()
-                speak('Searching '+ search +'on Wikipedia...')
+                speak('Searching ' + search + 'on Wikipedia...')
                 results = wikipedia.summary(search, sentences=2)
                 speak("According to Wikipedia")
                 print(results)
                 speak(results)
-           
-                
-        
 
-
-        COINFLIP_STRS=["toss","flip","coin","coinflip"]
+        COINFLIP_STRS = ["toss", "flip", "coin", "coinflip"]
         for phrase in COINFLIP_STRS:
             if phrase in text:
-                 moves=["head", "tails"]   
-                 cmove=random.choice(moves)
-                 speak("The computer chose " + cmove)
-                 print("The computer chose: " + cmove)
+                moves = ["head", "tails"]
+                cmove = random.choice(moves)
+                speak("The computer chose " + cmove)
+                print("The computer chose: " + cmove)
 
-        
-
-        
         EXIT_STRS = ["exit"]
         for phrase in EXIT_STRS:
             if phrase in text:
                 speak("Goodbye, I hope I see you soon!")
                 exit()
 
-
         PRICE_STRS = ["google"]
         for phrase in PRICE_STRS:
             if phrase in text:
                 speak("What would you like to search?")
-                srch=get_audio()
+                srch = get_audio()
                 print("What would you like to search?")
-                url="https://google.com/search?q="+ srch
+                url = "https://google.com/search?q=" + srch
                 webbrowser.get().open(url)
                 print("Here is what I found for" + srch)
-                speak("Here is what i found for"+ srch)
-
-
-        
+                speak("Here is what i found for" + srch)
